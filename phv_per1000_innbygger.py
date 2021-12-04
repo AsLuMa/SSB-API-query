@@ -11,7 +11,7 @@ R also has support for JSON-stat
 # https://data.ssb.no/api/v0/no/console
 
 ### List of data to fetch/goals for script:
-# Trender frå 2002-2020 (ingen data før 2002) for HELSEREGION VEST TOTALT: (raw data)
+# Trends from 2002-2020 (no data before 2002) for HELSEREGION VEST TOTALT (rates pr 1000):
 # - oppholdsdager
 # - polikliniske konsultasjoner
 
@@ -47,9 +47,9 @@ helseregion_vest_totalt_query = {
       "selection": {
         "filter": "item",
         "values": [
-          "DPlasser",
-          "Oppholdsdogn",
-          "PolikliniskeKonsult"
+          "Dognplasser",
+          "Oppholdsdgn",
+          "PolikliniskeKonsul"
         ]
       }
     },

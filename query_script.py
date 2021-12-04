@@ -7,7 +7,7 @@ time.sleep(3)
 # POST-URL example:
 # https://data.ssb.no/api-navn/api-versjon/språk/
 
-# Information about the API
+# Information about the API (from SSB, in Norwegian)
 # Grensene per uttrekk er 800.000 dataceller og antall spørringer er 30 per 60. sekund.
 # unngå tidsrommet 07.55 – 08.15
 
