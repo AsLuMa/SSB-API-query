@@ -7,12 +7,17 @@ import requests
 import time
 import json
 import matplotlib.pyplot as plt
+import numpy as np
 
 # ---- # Hente inn dataset frå fil
 df_fastlege = pd.read_csv('temp_storage.txt', index_col=['alder', 'kjønn'])
 
 
-# variabler til graf i matplotlib: y-akse
+
+
+exit()
+
+# variabler til visualisering i matplotlib: y-akse
 kjønn_group = df_fastlege.groupby(['kjønn'])
 menn_alle_aldre = kjønn_group.get_group('Menn').loc['Alle aldre']['value']
 kvinner_alle_aldre = kjønn_group.get_group('Kvinner').loc['Alle aldre']['value']
@@ -21,7 +26,37 @@ begge_kjønn_alle_aldre = kjønn_group.get_group('Begge kjønn').loc['Alle aldre
 # variabler til x-akse
 år = kjønn_group.get_group('Begge kjønn').loc['Alle aldre']['år']
 
-### Graf i matplotlib
+# ---- # BAR CHART
+
+# Bars side ved side, numpy array, index needed to offset bars
+x_indexes = np.arange(len(begge_kjønn_alle_aldre))
+width = 0.25
+
+#style.available to check which styles exist
+plt.style.use('seaborn')
+plt.title(f"Konsultasjoner hos fastlege for psykiske lidelser")
+# - width shifts to left
+plt.bar(x_indexes - width, menn_alle_aldre, width=width, label="Menn")
+plt.bar(x_indexes, kvinner_alle_aldre, width=width, label="Kvinner")
+# + width shifts to right
+plt.bar(x_indexes + width, begge_kjønn_alle_aldre, width=width, label="Begge kjønn")
+
+plt.xticks(ticks=x_indexes, labels=år)
+
+plt.xlabel("År")
+plt.ylabel("Konsultasjoner per 1000")
+plt.ylim(0, 1000)
+plt.legend()
+plt.show()
+
+
+exit()
+
+# ---- # LINE PLOT
+
+
+### Line plot i matplotlib
+plt.style.use('seaborn')
 plt.title(f"Konsultasjoner hos fastlege for psykiske lidelser")
 plt.plot(år, kvinner_alle_aldre, label = "Kvinner")
 plt.plot(år, menn_alle_aldre, label = "Menn")
