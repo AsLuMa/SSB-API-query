@@ -1,0 +1,24 @@
+# ---- # Run once, for å hente data og skrive det til fil
+- hugs å importere det som trengs å importeres
+
+1. Hent frå API (API-POST-URL + query frå tabell) - skriv til DataFrame
+
+def data_frå_API_til_dataframe(post_url, query):
+  result = requests.post(post_url, json=query)
+  pysjstat_dataset = pyjstat.Dataset.read(result.text)
+  data_frame = pysjstat_dataset.write('dataframe')
+  return data_frame
+
+2. Legg dataframe inn i variabel
+variabel = data_frå_API_til_dataframe(post_url, query)
+
+3. Variabel til csv (lag fil i mappe til å legge inn csv-data)
+variabel.to_csv('filnavn.txt', index=False)
+
+# ---- # Arbeidskode
+
+4. Dataframe til å jobbe med frå CSV
+df_variabel = pd.read_csv('yrkesrelaterte_helseplager.txt') #index_col=
+
+5. Ymse statement for å sjekke data
+Første 10 rader: print(df_yh.head(10).to_string())

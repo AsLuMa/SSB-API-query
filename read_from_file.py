@@ -9,13 +9,9 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 
-# ---- # Hente inn dataset frå fil
+# ---- # Hente inn dataset frå fil, alder og kjøn som index-kolonner
+# kan òg lese inn csv fil via import csv, med DictReader
 df_fastlege = pd.read_csv('temp_storage.txt', index_col=['alder', 'kjønn'])
-
-
-
-
-exit()
 
 # variabler til visualisering i matplotlib: y-akse
 kjønn_group = df_fastlege.groupby(['kjønn'])
@@ -50,17 +46,15 @@ plt.legend()
 plt.show()
 
 
-exit()
-
 # ---- # LINE PLOT
 
 
 ### Line plot i matplotlib
 plt.style.use('seaborn')
 plt.title(f"Konsultasjoner hos fastlege for psykiske lidelser")
-plt.plot(år, kvinner_alle_aldre, label = "Kvinner")
-plt.plot(år, menn_alle_aldre, label = "Menn")
-plt.plot(år, begge_kjønn_alle_aldre, marker='.', label = "Begge kjønn")
+plt.plot(år, kvinner_alle_aldre, marker='.', label="Kvinner")
+plt.plot(år, menn_alle_aldre, marker='.', label="Menn")
+plt.plot(år, begge_kjønn_alle_aldre, marker='.', label="Begge kjønn")
 plt.xlabel("År")
 plt.ylabel("Konsultasjoner per 1000")
 plt.ylim(0, 1000)
