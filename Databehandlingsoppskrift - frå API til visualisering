@@ -31,10 +31,11 @@ Alle unike indekser: print(df.index.unique())
 Alle unike verdier i en kolonne: print(list(df['navn på kolonne'].unique()))
 
 3. Lage oversikt over statistikken du vil ha
+- bar chart? plot? anna?
+- skriv ut korleis du vil det skal sjå ut: Kva skal på x-akse, y-akse, verdiar?
+- legg inn fornuftige kolonner som index
 
 4. Group by relevante variabler
-y-akse (group by-object): var_y = df.groupby(['column1'])
-x-akse (return df): var_x = var_y.get_group('row in column1').loc['other column']['another column']
 
 
 # ---- # Visualisering

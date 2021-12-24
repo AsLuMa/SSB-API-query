@@ -19,7 +19,6 @@ menn_alle_aldre = kjønn_group.get_group('Menn').loc['Alle aldre']['value']
 kvinner_alle_aldre = kjønn_group.get_group('Kvinner').loc['Alle aldre']['value']
 begge_kjønn_alle_aldre = kjønn_group.get_group('Begge kjønn').loc['Alle aldre']['value']
 
-
 # variabler til x-akse
 år = kjønn_group.get_group('Begge kjønn').loc['Alle aldre']['år']
 print('år', type(år))

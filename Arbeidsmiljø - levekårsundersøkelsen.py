@@ -8,16 +8,11 @@ import json
 
 
 # ---- # Kva vil eg ha av data?
-# uavhnegig variabel: index = 'type helseproblem'
-# statistisk signifikans mellom følgende uavhengige variabler:
-# plot for:
-  # ift den totale mengden sysselsatte - då må me hente ut det og lagre det i ein df (det kjem i rådata)
-  # group by: 'kjønn'
-  # group by: 'yrke'
-  # group by 'år'
+# totale mengden sysselsatte + antall ansatte?
+
+# statistisk signifikans: kvinner og menn?
 
 # ---- # Yrkesrelaterte helseplager
-#index_col= to set index
 df_yh = pd.read_csv('yrkesrelaterte_helseplager.txt', index_col='type helseproblem')
 
 #'type helseproblem' - psykiske
@@ -26,15 +21,53 @@ utvalgte_helseproblem = [
 'Hodepine eller migrene som skyldes jobb',
 'Plaget av angst som skyldes jobb',
 'Plaget av depresjon eller kjenner seg nedtrykt som skyldes jobb',
-'Tetthet i brystet, piping i brystet som skyldes jobb',
-'Antall ansatte', 'Antall sysselsatte'
+'Tetthet i brystet, piping i brystet som skyldes jobb' #,
+#'Antall ansatte', 'Antall sysselsatte'
 ]
 
-# print(df_yh.head(15).to_string())
+# ---- # Løsning 2
 
-# DataFrame
-df_na_removed = df_yh.loc[utvalgte_helseproblem].dropna()
-print(df_na_removed.to_string())
+df_ny = df_yh.loc[(df_yh['yrke'] == 'Alle yrker') & (df_yh['år'] == 2019)]
+df = df_ny.loc[utvalgte_helseproblem].dropna()
+
+group_kjønn = df.groupby('kjønn')
+df_menn = group_kjønn.get_group('Menn')['value']
+df_kvinner = group_kjønn.get_group('Kvinner')['value']
+df_begge = group_kjønn.get_group('Begge kjønn')['value']
+
+# --- # Bar chart
+y_indexes = np.arange(len(df_begge))
+width = 0.25
+
+plt.style.use('seaborn')
+plt.title(f"Yrkesrelaterte helseplager")
+# - width shifts to left
+plt.bar(y_indexes - width, df_menn, width=width, label="Menn")
+plt.bar(y_indexes, df_kvinner, width=width, label="Kvinner")
+# + width shifts to right
+plt.bar(y_indexes + width, df_begge, width=width, label="Begge kjønn")
+
+short_labels = ['Utmattet', 'Hodepine', 'Angst', 'Depresjon', 'Tetthet i brystet']
+plt.xticks(ticks=y_indexes, labels=short_labels)
+# print(df_menn.index)
+# df_menn.index
+
+plt.xlabel("")
+plt.ylabel("")
+# plt.ylim(0, 1000)
+plt.legend()
+plt.show()
+
+
+
+# ---- # Løsning 1 - litt uelegant
+
+# DataFrame TODO mangler yrke og type helseproblem
+# df_utvalgte = df_yh.loc[utvalgte_helseproblem]
+# df_indexåy = df_utvalgte.set_index(['yrke', 'år'])
+# df_yrke = df_indexåy.loc['Alle yrker']
+# df_år = df_yrke.loc[2019]
+# print(df_år)
 
 
 
