@@ -15,10 +15,26 @@ variabel = data_frå_API_til_dataframe(post_url, query)
 3. Variabel til csv (lag fil i mappe til å legge inn csv-data)
 variabel.to_csv('filnavn.txt', index=False)
 
+
+# ---- # Excel-behandling
+
+
 # ---- # Arbeidskode
 
-4. Dataframe til å jobbe med frå CSV
-df_variabel = pd.read_csv('yrkesrelaterte_helseplager.txt') #index_col=
+1. Dataframe til å jobbe med frå CSV
+df_variabel = pd.read_csv('yrkesrelaterte_helseplager.txt', index_col='name of column(s) to set as index')
 
-5. Ymse statement for å sjekke data
-Første 10 rader: print(df_yh.head(10).to_string())
+2. Ymse statement for å sjekke data
+Første 10 rader: print(df.head(10).to_string())
+Name of columns: print(df.columns)
+Alle unike indekser: print(df.index.unique())
+Alle unike verdier i en kolonne: print(list(df['navn på kolonne'].unique()))
+
+3. Lage oversikt over statistikken du vil ha
+
+4. Group by relevante variabler
+y-akse (group by-object): var_y = df.groupby(['column1'])
+x-akse (return df): var_x = var_y.get_group('row in column1').loc['other column']['another column']
+
+
+# ---- # Visualisering

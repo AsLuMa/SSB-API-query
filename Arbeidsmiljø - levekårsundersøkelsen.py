@@ -2,11 +2,42 @@ from pyjstat import pyjstat
 import requests
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 import json
 
-df_yh = pd.read_csv('yrkesrelaterte_helseplager.txt') #index_col=
 
-print(df_yh.head(10).to_string())
+
+# ---- # Kva vil eg ha av data?
+# uavhnegig variabel: index = 'type helseproblem'
+# statistisk signifikans mellom følgende uavhengige variabler:
+# plot for:
+  # ift den totale mengden sysselsatte - då må me hente ut det og lagre det i ein df (det kjem i rådata)
+  # group by: 'kjønn'
+  # group by: 'yrke'
+  # group by 'år'
+
+# ---- # Yrkesrelaterte helseplager
+#index_col= to set index
+df_yh = pd.read_csv('yrkesrelaterte_helseplager.txt', index_col='type helseproblem')
+
+#'type helseproblem' - psykiske
+utvalgte_helseproblem = [
+'Har vansker med å sove fordi de tenker på jobb, ukentlig','Føler seg psykisk utmattet når de kommer hjem fra arbeid, ukentlig',
+'Hodepine eller migrene som skyldes jobb',
+'Plaget av angst som skyldes jobb',
+'Plaget av depresjon eller kjenner seg nedtrykt som skyldes jobb',
+'Tetthet i brystet, piping i brystet som skyldes jobb',
+'Antall ansatte', 'Antall sysselsatte'
+]
+
+# print(df_yh.head(15).to_string())
+
+# DataFrame
+df_na_removed = df_yh.loc[utvalgte_helseproblem].dropna()
+print(df_na_removed.to_string())
+
+
+
 
 
 exit()
@@ -27,8 +58,6 @@ exit()
 # https://www.ssb.no/statbank/table/10481
 
 #### Skript for å hente ut info frå SSB, skrive til DataFrame og lagre som CSV
-
-# POST_URL_YRKESRELATERTE_HELSEPLAGER = 'https://data.ssb.no/api/v0/no/table/10478/'
 
 yrkesrelaterte_helseplager = {
   "query": [
@@ -68,20 +97,20 @@ yrkesrelaterte_helseplager = {
   }
 }
 
+
+# noinspection NonAsciiCharacters
 def data_frå_API_til_dataframe(post_url, query):
   result = requests.post(post_url, json=query)
   pysjstat_dataset = pyjstat.Dataset.read(result.text)
   data_frame = pysjstat_dataset.write('dataframe')
   return data_frame
 
-# def pretty_print():
-#   string_of_data = ps_dataset
-#   temp_string_for_prettyprint = json.loads(string_of_data)
-#   print(json.dumps(temp_string_for_prettyprint, indent=4, sort_keys=True))
+# # Run once
+# df_yh = data_frå_API_til_dataframe('https://data.ssb.no/api/v0/no/table/10478/', yrkesrelaterte_helseplager)
+#
+# # Data henta 22.12.21, klokka 21.07
+# df_yh.to_csv('yrkesrelaterte_helseplager.txt', index=False)
 
 
-# Run once
-df_yh = data_frå_API_til_dataframe('https://data.ssb.no/api/v0/no/table/10478/', yrkesrelaterte_helseplager)
 
-# Data henta 22.12.21, klokka 21.07
-df_yh.to_csv('yrkesrelaterte_helseplager.txt', index=False)
+
